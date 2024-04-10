@@ -13,10 +13,18 @@ namespace habitos_web_app.Controllers
         {
             _context = context;
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             IEnumerable<User> users = await _context.User.ToListAsync();
             return View(users);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
         }
     }
 }
