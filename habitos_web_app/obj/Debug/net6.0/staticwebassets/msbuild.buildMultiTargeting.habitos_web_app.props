@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\habitos_web_app.props" />
+</Project>
