@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Nuevo Usuario</h1>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label for="username" class="form-label">Nombre de Usuario</label>
+        <input type="text" class="form-control" id="name" name="SantiaGOD" />
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Correo Usuario</label>
+        <input type="email" class="form-control" id="email" name="ejemplo@example.com" />
+    </div>
+
+    <button class="btn btn-primary">Crear</button>
+</form>
