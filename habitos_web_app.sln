@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34723.18
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "habitos_web_app", "habitos_web_app\habitos_web_app.csproj", "{7C901944-3A99-4A4B-A098-827B54FEB170}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C901944-3A99-4A4B-A098-827B54FEB170}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C901944-3A99-4A4B-A098-827B54FEB170}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C901944-3A99-4A4B-A098-827B54FEB170}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C901944-3A99-4A4B-A098-827B54FEB170}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {73D8AFC1-CD3F-445B-BC68-A78FCFA93456}
+	EndGlobalSection
+EndGlobal
