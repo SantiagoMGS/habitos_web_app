@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Users Index</h1>
+
+<div class="row">
+    <div class="table">
+        <table class="table-responsive">
+            <thead>
+				<tr>
+					<th>Id</th>
+					<th>Username</th>
+					<th>Email</th>
+					<th>Role</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var user in Model)
+				{
+					<tr>
+						<td>@user.Id</td>
+						<td>@user.Email</td>
+						<td>
+							<a href="@Url.Action("Edit", "Users", new { id = user.Id })">Edit</a> |
+							<a href="@Url.Action("Details", "Users", new { id = user.Id })">Details</a> |
+							<a href="@Url.Action("Delete", "Users", new { id = user.Id })">Delete</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+        </table>
+    </div>
+</div>
