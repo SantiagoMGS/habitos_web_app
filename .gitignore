@@ -178,3 +178,4 @@ node_modules/
 
 # Tye
 .tye/
+habitos_web_app/appsettings.json
