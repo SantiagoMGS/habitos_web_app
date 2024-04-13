@@ -1,0 +1,16 @@
+﻿namespace habitos_app.Web.Models
+{
+	using System.ComponentModel.DataAnnotations;
+
+	public class Unit
+	{
+		public int Id { get; set; }
+
+		[Required(ErrorMessage = "El nombre de la unidad es obligatorio.")]
+		public string Name { get; set; }
+
+		public string Description { get; set; }
+
+		// Otras propiedades relacionadas con la unidad, si es necesario.
+	}
+}
