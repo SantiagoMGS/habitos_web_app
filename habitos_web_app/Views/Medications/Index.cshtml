@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Medications Index</h1>
+
+<div class="row">
+    <div class="table">
+        <table class="table-responsive">
+            <thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Quantity</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var medication in Model)
+				{
+					<tr>
+						<td>@medication.Id</td> 
+						<td>@medication.Name</td>
+						<td>@medication.Description</td>
+						<td>@medication.Quantity</td>
+						<td>
+							<a href="@Url.Action("Edit", "Medications", new { id = medication.Id })">Edit</a> |
+							<a href="@Url.Action("Details", "Medications", new { id = medication.Id })">Details</a> |
+							<a href="@Url.Action("Delete", "Medications", new { id = medication.Id })">Delete</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+        </table>
+    </div>
+</div>

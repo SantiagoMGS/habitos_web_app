@@ -1,19 +1,20 @@
 ﻿namespace habitos_app.Web.Models
 {
-    using System.ComponentModel.DataAnnotations;
+	using System.ComponentModel.DataAnnotations;
 
-    public class Medication
-    {
-        public int Id { get; set; }
+	public class Medication
+	{
+		public int ID { get; set; }
 
-        [Required(ErrorMessage = "El nombre del medicamento es obligatorio.")]
-        public string Name { get; set; }
+		[Required(ErrorMessage = "El nombre del medicamento es obligatorio.")]
+		public string Nombre { get; set; }
 
-        public string Description { get; set; }
+		public int Unidad_id { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "La cantidad debe ser mayor que cero.")]
-        public int Quantity { get; set; }
+		public int Via_admin_id { get; set; }
 
-        // Otras propiedades relacionadas con los medicamentos, como la dosis, la frecuencia, etc.
-    }
+		[Required(ErrorMessage = "La cantidad del medicamento es obligatoria.")]
+		[Range(0.1, double.MaxValue, ErrorMessage = "La cantidad debe ser mayor que cero.")]
+		public float Cantidad { get; set; }
+	}
 }
