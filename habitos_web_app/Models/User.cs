@@ -13,10 +13,10 @@ public class User
     [EmailAddress]
     public string Email { get; set; }
 
-    // Clave foránea de UserType
+
     public int UserTypeId { get; set; }
 
-    // Propiedad de navegación para UserType
+
     [ForeignKey("UserTypeId")]
     public UserType? UserType { get; set; }
 
