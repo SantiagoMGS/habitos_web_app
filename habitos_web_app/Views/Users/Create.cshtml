@@ -1,20 +1,34 @@
-﻿
+﻿@model habitos_app.Web.Models.UserCreateDto
+
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create User";
 }
 
-<h1>Nuevo Usuario</h1>
+<h1>Create User</h1>
 
 <form asp-action="Create" method="post">
-    <div class="mb-3">
-        <label for="username" class="form-label">Nombre de Usuario</label>
-        <input type="text" class="form-control" id="name" name="SantiaGOD" />
+    <div class="form-group">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="UserTypeId">User Type</label>
+        <select asp-for="UserTypeId" asp-items="ViewBag.UserTypeItems" class="form-control">
+            <option value="">-- Select User Type --</option>
+        </select>
     </div>
 
-    <div class="mb-3">
-        <label for="email" class="form-label">Correo Usuario</label>
-        <input type="email" class="form-control" id="email" name="ejemplo@example.com" />
-    </div>
-
-    <button class="btn btn-primary">Crear</button>
+    <button type="submit" class="btn btn-primary">Create</button>
 </form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
