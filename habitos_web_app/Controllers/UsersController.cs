@@ -121,17 +121,6 @@ namespace habitos_web_app.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var user = await _context.User.Include(u => u.UserType).FirstOrDefaultAsync(u => u.Id == id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
 
         [HttpPost] 
         public async Task<IActionResult> Delete(UserDto dto)
