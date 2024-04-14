@@ -20,5 +20,31 @@ namespace habitos_web_app.Controllers
         {
             return View(await _context.UserType.ToListAsync());
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(UserTypeDto dto)
+        {
+
+            if (ModelState.IsValid)
+            {
+                UserType userType = new UserType
+                {
+                    Description = dto.Description,
+                };
+
+                await _context.UserType.AddAsync(userType);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(dto);
+        }
     }
 }
