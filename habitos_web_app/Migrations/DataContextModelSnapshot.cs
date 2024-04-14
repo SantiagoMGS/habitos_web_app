@@ -40,24 +40,26 @@ namespace habitos_web_app.Migrations
 
             modelBuilder.Entity("habitos_app.Web.Models.Medication", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<string>("Description")
+                    b.Property<float>("Cantidad")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantity")
+                    b.Property<int>("Unidad_id")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Via_admin_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
 
                     b.ToTable("Medication");
                 });
@@ -78,9 +80,42 @@ namespace habitos_web_app.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserTypeId");
+
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("habitos_app.Web.Models.UserType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserType");
+                });
+
+            modelBuilder.Entity("habitos_app.Web.Models.User", b =>
+                {
+                    b.HasOne("habitos_app.Web.Models.UserType", "UserType")
+                        .WithMany()
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserType");
                 });
 #pragma warning restore 612, 618
         }
