@@ -1,33 +1,73 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 
-<h1>Habits Index</h1>
+<h1>Lista de habitos</h1>
+
+<div class="mb-3">
+    <a href="@Url.Action("Create", "Habits")" class="btn btn-success">Create New Habit</a>
+</div>
 
 <div class="row">
-    <div class="table">
-        <table class="table-responsive">
-            <thead>
-				<tr>
-					<th>Id</th>
-					<th>Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (var habit in Model)
-				{
-					<tr>
-						<td>@habit.Id</td>
-						<td>@habit.Description</td>
-						<td>
-							<a href="@Url.Action("Edit", "Habits", new { id = habit.Id })">Edit</a> |
-							<a href="@Url.Action("Details", "Habits", new { id = habit.Id })">Details</a> |
-							<a href="@Url.Action("Delete", "Habits", new { id = habit.Id })">Delete</a>
-						</td>
-					</tr>
-				}
-			</tbody>
+    <div class="col-md-12">
+        <table class="table table-striped table-hover table-responsive-md">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Tipo Habito</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var habit in Model)
+                {
+                    <tr>
+                        <td>@habit.Id</td>
+                        <td>@habit.Name</td>
+                        <td>@habit.HabitType.Description</td>
+                        <td>@habit.Description</td>
+                        
+                        <td>
+                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@habit.Id">Editar</a>
+                            <button onclick="confirmDelete('@habit.Id')" class="btn btn-danger btn-sm">Delete</button>
+                            
+                        </td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
 </div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        function confirmDelete(habitId) {
+            Swal.fire({
+                title: '¿Está seguro de eliminar el habito?',
+                text: "Esto no se puede revertir",
+                icon: 'warning',
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/Habits/Delete';
+                    var idInput = document.createElement('input');
+                    idInput.type = 'hidden';
+                    idInput.name = 'id';
+                    idInput.value = habitId;
+                    form.appendChild(idInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}
+
+
+
