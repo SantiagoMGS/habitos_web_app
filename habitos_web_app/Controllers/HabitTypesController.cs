@@ -47,5 +47,63 @@ namespace habitos_web_app.Controllers
 
             return View(dto);
         }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit([FromRoute] int id)
+        {
+      
+            HabitType habitType = await _context.HabitType.FindAsync(id);
+            // Si el usuario no existe, retorna un error 404 y no revienta la aplicación
+            if (habitType == null)
+            {
+                return NotFound();
+            }
+
+            HabitTypeDto habitTypeEditDto = new HabitTypeDto
+            {
+                Description = habitType.Description,
+            };
+
+            return View(habitTypeEditDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(HabitTypeDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
+
+            HabitType habitType = await _context.HabitType.FirstOrDefaultAsync(ht => ht.Id == dto.Id);
+            if (habitType == null)
+            {
+                return NotFound();
+            }
+
+            habitType.Description = dto.Description;
+
+            _context.Update(habitType);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(HabitTypeDto dto)
+        {
+            HabitType habitType = await _context.HabitType.FirstOrDefaultAsync(ht => ht.Id == dto.Id);
+            if (habitType == null)
+            {
+                return NotFound();
+            }
+
+            _context.HabitType.Remove(habitType);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
