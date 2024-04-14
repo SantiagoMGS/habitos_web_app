@@ -1,0 +1,34 @@
+﻿@model habitos_app.Web.Models.HabitDto
+
+@{
+    ViewData["Title"] = "Create Habit";
+}
+
+<h1>Create Habit</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HabitTypeId">Habit Type</label>
+        <select asp-for="HabitTypeId" asp-items="ViewBag.HabitTypeItems" class="form-control">
+            <option value="">-- Select Habit Type --</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description">Descripción</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

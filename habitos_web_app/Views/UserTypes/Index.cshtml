@@ -34,3 +34,31 @@
     </div>
 </div>
 
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+        function confirmDelete(userTypeId) {
+            Swal.fire({
+                title: '¿Está seguro de eliminar el tipo de usuario?',
+                text: "Esto no se puede revertir",
+                icon: 'warning',
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/UserTypes/Delete';
+                    var idInput = document.createElement('input');
+                    idInput.type = 'hidden';
+                    idInput.name = 'id';
+                    idInput.value = userTypeId;
+                    form.appendChild(idInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+    </script>
+}
+
