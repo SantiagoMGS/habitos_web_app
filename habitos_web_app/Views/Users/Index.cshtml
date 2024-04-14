@@ -31,9 +31,7 @@
                         <td>@user.UserType.Description</td>
                         <td>
                             <a class="btn btn-warning" asp-action="Edit" asp-route-id="@user.Id">Editar</a>
-                            <form asp-action="Delete" asp-route-id="@user.Id" style="display:contents">
-								<button type="submit" class="btn btn-danger btnDelete">Eliminar</button>
-                            </form>
+                            <button onclick="confirmDelete('@user.Id')" class="btn btn-danger btn-sm">Delete</button>
                             
                         </td>
                     </tr>
@@ -45,24 +43,30 @@
 
 
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-			$('.btnDelete').click(function (e) {
-				e.preventDefault();
-				var form = $(this).closest('form');
-				Swal.fire({
-					title: '¿Está seguro de eliminar el usuario?',
-					text: "Luego no se queje",
-					icon: 'warning',
-					showCancelButton: true,
-				}).then((result) => {
-					if (result.isConfirmed) {
-                        const form = $his.closest('form');
-						form.submit();
-					}
-				});
-			});
-		});
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+        function confirmDelete(userId) {
+            Swal.fire({
+                title: '¿Está seguro de eliminar el usuario?',
+                text: "Esto no se puede revertir",
+                icon: 'warning',
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                  
+                    var form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/Users/Delete'; 
+                    var idInput = document.createElement('input');
+                    idInput.type = 'hidden';
+                    idInput.name = 'id';
+                    idInput.value = userId;
+                    form.appendChild(idInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
     </script>
 }
 
