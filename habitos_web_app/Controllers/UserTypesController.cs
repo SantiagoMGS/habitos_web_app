@@ -88,5 +88,20 @@ namespace habitos_web_app.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(UserTypeDto dto)
+        {
+            UserType userType = await _context.UserType.FirstOrDefaultAsync(u => u.Id == dto.Id);
+            if (userType == null)
+            {
+                return NotFound();
+            }
+
+            _context.UserType.Remove(userType);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
