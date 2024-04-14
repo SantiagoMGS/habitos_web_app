@@ -1,7 +1,6 @@
 namespace habitos_app.Web.Models;
 using System.ComponentModel.DataAnnotations;
-
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class User
 {
@@ -11,8 +10,14 @@ public class User
     public string Name { get; set; }
 
     [Required]
-    [EmailAddress] // Valida también el formato de correo electrónico
+    [EmailAddress]
     public string Email { get; set; }
 
-    // Otras propiedades comunes
+    // Clave foránea de UserType
+    public int UserTypeId { get; set; }
+
+    // Propiedad de navegación para UserType
+    [ForeignKey("UserTypeId")]
+    public UserType? UserType { get; set; }
+
 }
