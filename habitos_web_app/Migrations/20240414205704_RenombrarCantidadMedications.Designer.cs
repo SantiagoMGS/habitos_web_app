@@ -11,8 +11,8 @@ using habitos_app.Web.Data;
 namespace habitos_web_app.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240414023853_CreateHabitType")]
-    partial class CreateHabitType
+    [Migration("20240414205704_RenombrarCantidadMedications")]
+    partial class RenombrarCantidadMedications
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,22 +57,43 @@ namespace habitos_web_app.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<float>("Cantidad")
-                        .HasColumnType("real");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Unidad_id")
+                    b.Property<float>("Quantity")
+                        .HasColumnType("real");
+
+                    b.Property<int>("UnitId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Via_admin_id")
+                    b.Property<int>("ViaAdminId")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
+                    b.HasIndex("UnitId");
+
+                    b.HasIndex("ViaAdminId");
+
                     b.ToTable("Medication");
+                });
+
+            modelBuilder.Entity("habitos_app.Web.Models.Unit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Unit");
                 });
 
             modelBuilder.Entity("habitos_app.Web.Models.User", b =>
@@ -118,6 +139,23 @@ namespace habitos_web_app.Migrations
                     b.ToTable("UserType");
                 });
 
+            modelBuilder.Entity("habitos_app.Web.Models.ViaAdmin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ViaAdmin");
+                });
+
             modelBuilder.Entity("habitos_web_app.Models.HabitType", b =>
                 {
                     b.Property<int>("Id")
@@ -144,6 +182,25 @@ namespace habitos_web_app.Migrations
                         .IsRequired();
 
                     b.Navigation("HabitType");
+                });
+
+            modelBuilder.Entity("habitos_app.Web.Models.Medication", b =>
+                {
+                    b.HasOne("habitos_app.Web.Models.Unit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("habitos_app.Web.Models.ViaAdmin", "ViaAdmin")
+                        .WithMany()
+                        .HasForeignKey("ViaAdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Unit");
+
+                    b.Navigation("ViaAdmin");
                 });
 
             modelBuilder.Entity("habitos_app.Web.Models.User", b =>
