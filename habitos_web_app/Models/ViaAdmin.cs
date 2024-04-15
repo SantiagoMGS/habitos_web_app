@@ -1,13 +1,14 @@
 ﻿namespace habitos_app.Web.Models
 {
-	using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations;
 
-	public class AdministrationRoute
-	{
-		public int Id { get; set; }
+    public class ViaAdmin
+    {
+        public int Id { get; set; }
 
-		public string Description { get; set; }
+        [Required(ErrorMessage = "Se debe especificar la vía de administracion")]
+        public string Description { get; set; }
 
-		// Otras propiedades relacionadas con la ruta de administración, si es necesario.
-	}
+        // Otras propiedades relacionadas con la unidad, si es necesario.
+    }
 }
