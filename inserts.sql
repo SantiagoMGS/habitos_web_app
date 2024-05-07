@@ -15,3 +15,19 @@ INSERT INTO [dbo].[Habit] VALUES
 ('Realizar 30 minutos de ejercicio cardiovascular cada día', 1, 'Ejercicio Diario'),
 ('Incluir al menos cinco porciones de frutas y verduras en la dieta diaria', 2, 'Dieta Saludable'),
 ('Dedicar 15 minutos al día a la meditación para mejorar la claridad mental y reducir el estrés', 3, 'Meditación Diaria')
+
+
+INSERT INTO [dbo].[Unit] VALUES
+('GR'),
+('ML')
+
+INSERT INTO [dbo].[ViaAdmin] VALUES
+('Oral'),
+('Intravenosa'),
+('Anal'),
+('Ocular')
+
+INSERT INTO [dbo].[Medication] VALUES
+('Acetaminofen', 1, 1, 500),
+('Fregen Gotas', 2, 4, 2500),
+('Diclofenalco', 2, 2, 500)

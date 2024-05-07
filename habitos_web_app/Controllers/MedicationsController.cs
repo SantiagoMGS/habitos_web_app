@@ -1,8 +1,9 @@
-﻿using habitos_app.Web.Data;
 using habitos_app.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using habitos_app.Web.Data;
+using System.Xml.Linq;
 
 namespace habitos_web_app.Controllers
 {
@@ -15,15 +16,6 @@ namespace habitos_web_app.Controllers
             _context = context;
         }
 
-        private List<SelectListItem> GetUnitSelectList()
-        {
-            return _context.Unit.Select(u => new SelectListItem
-            {
-                Value = u.Id.ToString(),
-                Text = u.Description
-            }).ToList();
-        }
-
         private List<SelectListItem> GetViaAdminSelectList()
         {
             return _context.ViaAdmin.Select(va => new SelectListItem
@@ -33,20 +25,33 @@ namespace habitos_web_app.Controllers
             }).ToList();
         }
 
+        private List<SelectListItem> GetUnitSelectList()
+        {
+            return _context.Unit.Select(u => new SelectListItem
+            {
+                Value = u.Id.ToString(),
+                Text = u.Description
+            }).ToList();
+        }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Medication> medications = await _context.Medication.Include(m => m.Unit).Include(m => m.ViaAdmin).ToListAsync();
+            IEnumerable<Medication> medications = await _context.Medication.Include(va => va.ViaAdmin).Include(u => u.Unit).ToListAsync();
             return View(medications);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            List<SelectListItem> Units = GetUnitSelectList();
-            ViewBag.Units = Units;
+            // Obtiene la lista de tipos de ViaAdmin
             List<SelectListItem> ViaAdmins = GetViaAdminSelectList();
+            // Asigna la lista de tipos de ViaAdmin a la vista para mostrar en el formulario
             ViewBag.ViaAdmins = ViaAdmins;
+            // Obtiene la lista de tipos de ViaAdmin
+            List<SelectListItem> Units = GetUnitSelectList();
+            // Asigna la lista de tipos de ViaAdmin a la vista para mostrar en el formulario
+            ViewBag.Units = Units;
             return View();
         }
 
@@ -55,14 +60,12 @@ namespace habitos_web_app.Controllers
         {
             if (ModelState.IsValid)
             {
-                Medication medication = new Medication
-                {
+                Medication medication = new Medication { 
                     Name = dto.Name,
                     UnitId = dto.UnitId,
                     ViaAdminId = dto.ViaAdminId,
                     Quantity = dto.Quantity
                 };
-
                 await _context.Medication.AddAsync(medication);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -71,27 +74,27 @@ namespace habitos_web_app.Controllers
             return View(dto);
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Edit([FromRoute] int id)
         {
-
-            Medication medication = await _context.Medication.Include(m => m.Unit).Include(m => m.ViaAdmin).FirstOrDefaultAsync(m => m.Id == id);
-
+            // Obtiene el medicamento a editar y la lista de tipos de medicamento
+            Medication medication = await _context.Medication.Include(va => va.ViaAdmin).Include(u => u.Unit).FirstOrDefaultAsync(u => u.Id == id);
+            // Si el medicamento no existe, retorna un error 404 y no revienta la aplicación
             if (medication == null)
             {
                 return NotFound();
             }
-            List<SelectListItem> Units = GetUnitSelectList();
-            ViewBag.Units = Units;
+
             List<SelectListItem> ViaAdmins = GetViaAdminSelectList();
             ViewBag.ViaAdmins = ViaAdmins;
+            List<SelectListItem> Units = GetUnitSelectList();
+            ViewBag.Units = Units;
 
             MedicationDto medicationEditDto = new MedicationDto
             {
                 Name = medication.Name,
-                UnitId = medication.UnitId,
                 ViaAdminId = medication.ViaAdminId,
+                UnitId = medication.UnitId,
                 Quantity = medication.Quantity
             };
 
@@ -106,16 +109,16 @@ namespace habitos_web_app.Controllers
                 return View(dto);
             }
 
-            Medication medication = await _context.Medication.FirstOrDefaultAsync(m => m.Id == dto.Id);
+            Medication medication = await _context.Medication.Include(va => va.ViaAdmin).Include(u => u.Unit).FirstOrDefaultAsync(u => u.Id == dto.Id);
             if (medication == null)
             {
                 return NotFound();
             }
 
-            medication.Name = dto.Name;
-            medication.UnitId = dto.UnitId;
-            medication.ViaAdminId = dto.ViaAdminId;
-            medication.Quantity = dto.Quantity;
+            medication.Name = medication.Name;
+            medication.ViaAdminId = medication.ViaAdminId;
+            medication.UnitId = medication.UnitId;
+            medication.Quantity = medication.Quantity;
 
             _context.Update(medication);
             await _context.SaveChangesAsync();
@@ -123,10 +126,11 @@ namespace habitos_web_app.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Delete(MedicationDto dto)
         {
-            Medication? medication = await _context.Medication.FirstOrDefaultAsync(m => m.Id == dto.Id);
+            Medication medication = await _context.Medication.FirstOrDefaultAsync(u => u.Id == dto.Id);
             if (medication == null)
             {
                 return NotFound();
@@ -137,5 +141,6 @@ namespace habitos_web_app.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
     }
 }
