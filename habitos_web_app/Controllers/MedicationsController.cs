@@ -1,4 +1,4 @@
-﻿using habitos_app.Web.Models;
+using habitos_app.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
